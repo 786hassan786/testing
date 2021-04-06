@@ -1,0 +1,88 @@
+ <div class="footer-top">
+               <a href="{{ route('shop.home.index') }}" class="footer-top--link"></a>
+</div>
+
+
+<div class="row footer-statics col-12 no-margin">
+
+@if ($velocityMetaData)
+            {!! DbView::make($velocityMetaData)->field('footer_middle_content')->render() !!}
+        @else
+	<div class="footer-nav cf">
+        
+    <ul class="footer-nav--column list-reset segment-33">
+            <li class="footer-nav--item"><a class="footer-nav--link" href="#">Mens</a></li>
+            <li class="footer-nav--item"><a class="footer-nav--link" href="#">Womens</a></li>
+            <li class="footer-nav--item"><a class="footer-nav--link" href="#">Accessories</a></li>
+            
+            <li class="footer-nav--item"><a class="footer-nav--link" href="https://webkul.com/about-us/company-profile/">
+            About FMClothes
+            {{ __('velocity::app.admin.meta-data.footer-middle.about-us') }}
+            </a></li>
+        </ul>
+        
+        
+        
+        <ul class="footer-nav--column list-reset segment-33">
+            
+        <li class="footer-nav--item"><a class="footer-nav--link" href="faq.html">FAQ</a></li>
+            
+            <li class="footer-nav--item"><a class="footer-nav--link" href="https://webkul.com/about-us/company-profile/">
+                Delivery & Returns
+            {{ __('velocity::app.admin.meta-data.footer-middle.shipping-policy') }}
+            </a></li>
+            
+            <li class="footer-nav--item"><a class="footer-nav--link" href="contact-us.html">
+                Contact Us
+                {{ __('velocity::app.admin.meta-data.footer-middle.contact-us') }}
+            </a></li>
+
+            <li class="footer-nav--item"><a class="footer-nav--link" href="#">
+                Privacy Policy
+                {{ __('velocity::app.admin.meta-data.footer-middle.privacy-and-cookies-policy') }}
+            </a></li>
+        </ul>
+        
+        
+        <ul class="footer-nav--column list-reset segment-33">
+            <li class="footer-nav--item"><a class="footer-nav--link" href="#">
+                Terms
+                {{ __('velocity::app.admin.meta-data.footer-middle.privacy-and-cookies-policy') }}
+            </a></li>
+            <li class="footer-nav--item"><a class="footer-nav--link" href="#">
+                Cookie Policy
+                {{ __('velocity::app.admin.meta-data.footer-middle.privacy-and-cookies-policy') }}
+            </a></li>
+        </ul>
+	</div>
+			
+    <div class="footer-social">
+		<div class="footer-social--title">Follow Us</div>
+		<div class="footer-social--links">
+			<a href="https://www.facebook.com/" class="footer-social--link footer-social--link__facebook"></a>
+            <a href="https://twitter.com/" class="footer-social--link footer-social--link__twitter"></a>
+            <a href="https://www.instagram.com/" class="footer-social--link footer-social--link__instagram"></a>				</div>
+		</div>
+	</div>
+
+    <div class="footer-btm cf">
+        <div class="footer-btm--inner">
+            
+            <div class="footer-btm--links cf">
+                <span>&copy; F&M Clothes 2020 all rights reserved</span><br />
+            </div>
+            
+            <div class="footer-payment">
+                <img src="{{ asset('themes/velocity/assets/images/payment-logos@2x.png') }}" />
+            </div>
+            <div class="footer-badge"></div>
+
+        </div>
+    </div>
+    @endif
+</div>
+
+    <!-- @include('velocity::layouts.footer.footer-links.footer-left') -->
+        <!-- @include('velocity::layouts.footer.footer-links.footer-middle') -->
+      <!--  @include('velocity::layouts.footer.footer-links.footer-right') -->
+

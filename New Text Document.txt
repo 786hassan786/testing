@@ -1,0 +1,33 @@
+
+<div class="cate-scrolling">
+            <div class="home-categories cf">
+              <div class="cate-width">
+                <div class="width20">
+                  <div class="home-category segment-33">
+                    
+                    <a :href="url+'/'+this.item['translations'][0].slug" class="home-category--inner cover">
+                      <img :src="url+'/storage/'+image">
+                    </a>
+
+                    
+                  </div>
+                  <div style="clear: both"></div>
+                  <div class="home-category--table">
+                    <div class="home-category--content">
+                      <div class="home-category--title" style="padding-top:15px; padding-bottom:10px;">@{{ name }}&emsp;</div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,779 @@
+<!-- @php
+    $count = core()->getConfigData('catalog.products.homepage.no_of_featured_product_homepage');
+    $count = $count ? $count : 10;
+    $direction = core()->getCurrentLocale()->direction == 'rtl' ? 'rtl' : 'ltr';
+@endphp
+
+<product-collections
+    product-id="fearured-products-carousel"
+    product-title="{{ __('shop::app.home.featured-products') }}"
+    product-route="{{ route('velocity.category.details', ['category-slug' => 'featured-products', 'count' => $count]) }}"
+    locale-direction="{{ $direction }}"
+    count="{{ (int) $count }}">
+</product-collections>
+
+ 
+ -->
+
+<!-- category images -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ...... -->
+<div class="cate-scrolling">
+            <div class="home-categories cf">
+              <div class="cate-width">
+
+              {!! view_render_event('bagisto.shop.layout.header.category.before') !!}
+
+<?php
+
+$categories = [];
+
+foreach (app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id) as $category) {
+    if ($category->slug)
+        array_push($categories, $category);
+}
+
+?>
+
+<category-nav categories='@json($categories)' url="{{url()->to('/')}}"></category-nav>
+
+
+{!! view_render_event('bagisto.shop.layout.header.category.after') !!}
+
+
+@push('scripts')
+
+
+<script type="text/x-template" id="category-nav-template">
+
+    <ul class="nav">
+        <category-item
+            v-for="(item, index) in items"
+            :key="index"
+            :url="url"
+            :item="item"
+            :parent="index">
+        </category-item>
+    </ul>
+
+</script>
+
+<script>
+    Vue.component('category-nav', {
+
+        template: '#category-nav-template',
+
+        props: {
+            categories: {
+                type: [Array, String, Object],
+                required: false,
+                default: (function () {
+                    return [];
+                })
+            },
+
+            url: String
+        },
+
+        data: function(){
+            return {
+                items_count:0
+            };
+        },
+
+        computed: {
+            items: function() {
+                return JSON.parse(this.categories)
+            }
+        },
+    });
+</script>
+<script type="text/x-template" id="category-item-template">
+
+<div class="width20">
+                  <div class="home-category segment-33">
+                    <a
+                    :href="url+'/'+this.item['translations'][0].slug"
+                      class="home-category--inner cover"
+                      v-bind:style="{ backgroundImage: 'url(' + url+'/storage/'+image + ')' }"
+
+                    >
+                      <div
+                        class="home-category--backdrop cover"
+                        v-bind:style="{ backgroundImage: 'url(' + url+'/storage/'+image + ')' }"
+                      ></div>
+                    </a>
+                  </div>
+                  <div style="clear: both"></div>
+                  <div class="home-category--table">
+                    <div class="home-category--content">
+                      <div class="home-category--title" style="padding-top:15px; padding-bottom:10px;">@{{ name }}&emsp;</div>
+                    </div>
+                  </div>
+  </div>
+
+    <li>
+        <a :href="url+'/'+this.item['translations'][0].slug">
+            @{{ name }}&emsp;
+            <i class="icon dropdown-right-icon" v-if="haveChildren && item.parent_id != null"></i>
+            <img :src="url+'/storage/'+image" style="height: 20px; width: 20px">
+        </a>
+
+        <i :class="[show ? 'icon icon-arrow-down mt-15' : 'icon dropdown-right-icon left mt-15']"
+        v-if="haveChildren"  @click="showOrHide"></i>
+
+        <ul v-if="haveChildren && show">
+            <category-item
+                v-for="(child, index) in item.children"
+                :key="index"
+                :url="url"
+                :item="child">
+            </category-item>
+        </ul>
+    </li>
+</script>
+
+<script>
+    Vue.component('category-item', {
+
+        template: '#category-item-template',
+
+        props: {
+            item:  Object,
+            url: String,
+        },
+
+        data: function() {
+            return {
+                items_count:0,
+                show: false,
+            };
+        },
+
+        mounted: function() {
+            if(window.innerWidth > 770){
+                this.show = true;
+            }
+        },
+
+        computed: {
+            haveChildren: function() {
+                return this.item.children.length ? true : false;
+            },
+
+            name: function() {
+                if (this.item.translations && this.item.translations.length) {
+                    this.item.translations.forEach(function(translation) {
+                        if (translation.locale == document.documentElement.lang)
+                            return translation.name;
+                    });
+                }
+
+                return this.item.name;
+            },
+
+            image: function() {
+                return this.item.image;
+            }
+        },
+
+        methods: {
+            showOrHide: function() {
+                this.show = !this.show;
+            }
+        }
+    });
+</script>
+
+
+@endpush
+
+                
+              </div>
+            </div>
+          </div>
+          <div class="listing-action shop-menbtn">
+            <div class="listing-submit">
+              <button
+                class="button_reset button button__green button-add-to-basket"
+                name=""
+                value="Add to Cart"
+              >
+                <span>Shop Men</span>
+              </button>
+              <br />
+              <button
+                class="button_reset button_add_to_basket button button__green button-add-to-basket"
+                name=""
+                value="Add to Cart"
+              >
+                <span>Shop Women</span>
+              </button>
+            </div>
+          </div>
+
+
+<!-- Now we add featured product -->
+<div class="featured">
+            <div class="featured--title">Featured Products</div>
+            <div class="featured-grid">
+              <div class="featured-slider slick-slider">
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Whitestone</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;26.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                       <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img
+                      src="themes/velocity/assets/images/19/whitestone-new-1_193b2d9486.jpg"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Camden</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;79.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                      <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img src="themes/velocity/assets/images/19/lb-lead_86e8b9c0a5.jpg" alt="" />
+                  </a>
+                </div>
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Eliza</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;39.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                      <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img
+                      src="themes/velocity/assets/images/19/946-black-1d_565ed75cc4.jpg"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Brevik</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;99.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                      <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img
+                      src="themes/velocity/assets/images/19/brevik-lead_e327e7e260.jpg"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Vancouver</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;64.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                      <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img
+                      src="themes/velocity/assets/images/19/vancouver-1a-1_d15f7f7d62.jpg"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Andorra</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;49.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                      <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img
+                      src="themes/velocity/assets/images/19/836-black-1d_eb59885187.jpg"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="featured-slide slick-slide segment-20">
+                  <a href="�" class="featured-slide--inner">
+                    <div class="featured-slide--overlay">
+                      <div class="featured-slide--title">The Sengla</div>
+                      <div class="featured-slide--middle">
+                        <div class="featured-slide--price">&pound;109.00</div>
+                        <div class="prod_stock">
+                          <span class="icon icon-in-stock">&nbsp;In Stock</span>
+                        </div>
+                      </div>
+                      <div class="featured-slide--arrow"></div>
+                    </div>
+                    <img
+                      src="themes/velocity/assets/images/19/1400-white-1d_e1756aade0.jpg"
+                      alt=""
+                    />
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+<!-- .......................... -->
+
+<div class="home-newsletter">
+            <div class="home-newsletter--inner">
+              <div class="container">
+                <div class="home-newsletter--content">
+                  <div id="newsletter-error-msg" class="message message-error">
+                    Please fill in all fields before submitting.
+                  </div>
+                  <div
+                    id="newsletter-success-msg"
+                    class="message message-success"
+                  ></div>
+                  Sign up to the F & M Clothes. Newsletter for all the latest
+                  news &amp; offers direct to your inbox!
+                </div>
+                <div class="home-newsletter--form">
+                  <form action="">
+                    <button class="home-newsletter--submit button button--dark">
+                      SUBSCRIBE
+                    </button>
+                    <div class="home-newsletter--inputs">
+                      <input
+                        class="home-newsletter--input"
+                        name=""
+                        type="text"
+                        placeholder="NAME"
+                      />
+                      <input
+                        class="home-newsletter--input"
+                        name=""
+                        type="text"
+                        placeholder="EMAIL"
+                        data-required
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+          <div class="home-blocks cf">
+            <div class="home-block-cont segment-33">
+              <div class="home-block-cont--inner menhome">
+                <div class="home-block nav">
+                  <div class="home-block--table">
+                    <div class="home-block--inner">
+                      <div class="home-block--title">Mens</div>
+                      <nav class="home-block-nav">
+                        <div class="home-block-nav--item">
+                          <a href="#" class="home-block-nav--link">Tees</a>
+                        </div>
+                        <div class="home-block-nav--item">
+                          <a href="#" class="home-block-nav--link">Shirts</a>
+                        </div>
+                        <div class="home-block-nav--item">
+                          <a href="#" class="home-block-nav--link">Jumpers</a>
+                        </div>
+                        <div class="home-block-nav--item">
+                          <a href="#" class="home-block-nav--link">Hoodies</a>
+                        </div>
+                      </nav>
+                      <a href="#" class="button home-block-nav--button"
+                        >VIEW ALL</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="home-welcome padding-t0">
+            <h1 class="home-welcome--title">F&M Clothes</h1>
+            <h2 class="home-welcome--subtitle">British Branding.</h2>
+            <div class="home-welcome--content">
+              <div class="container">
+                <p>
+                  We are a strong professional branding; everything we represent
+                  in our business is cohesive. We are UK based delivering
+                  bespoke designs regenerating a solely modern style to fashion.
+                </p>
+                <p>
+                  The creative ideas we have industrialized are sleek and
+                  elegant providing a true sense of innovative grace. Fostering
+                  an extremely warm connection with our customers, F&M
+                  designer�s counter to their varying needs this including the
+                  newest trends on the high street.
+                </p>
+              </div>
+            </div>
+            <div class="home-welcome--action">
+              <a href="about-us.html" class="home-welcome--button button"
+                >MORE ABOUT US</a
+              >
+              <a href="about-us.html" class="home-welcome--button button"
+                >OUR STORY</a
+              >
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+          <div class="container cf">
+            <div id="instafeed" class="instafeed cf">
+              <div class="instafeed--title">
+                Follow Us On Instagram @F&M Clothes
+              </div>
+              <a href="�" target="_BLANK" rel="noopener" class="if-item">
+                <div class="if-item--inner">
+                  <div
+                    class="if-item--image"
+                    data-insta-embed="�"
+                    style="background-image: url('themes/velocity/assets/images/t-shirts.jpg')"
+                  ></div>
+                </div>
+              </a>
+              <a href="�" target="_BLANK" rel="noopener" class="if-item">
+                <div class="if-item--inner">
+                  <div
+                    class="if-item--image"
+                    data-insta-embed="�"
+                    style="background-image: url('themes/velocity/assets/images/t-shirts.jpg')"
+                  ></div>
+                </div>
+              </a>
+              <a href="�" target="_BLANK" rel="noopener" class="if-item">
+                <div class="if-item--inner">
+                  <div
+                    class="if-item--image"
+                    data-insta-embed="https://www.instagram.com/p/CI5iSS0nuh5/"
+                    style="background-image: url('themes/velocity/assets/images/t-shirts.jpg')"
+                  ></div>
+                </div>
+              </a>
+              <a href="�" target="_BLANK" rel="noopener" class="if-item">
+                <div class="if-item--inner">
+                  <div
+                    class="if-item--image"
+                    data-insta-embed="https://www.instagram.com/p/CI30MuHHw6S/"
+                    style="background-image: url('themes/velocity/assets/images/t-shirts.jpg')"
+                  ></div>
+                </div>
+              </a>
+              <a href="�" target="_BLANK" rel="noopener" class="if-item">
+                <div class="if-item--inner">
+                  <div
+                    class="if-item--image"
+                    data-insta-embed="https://www.instagram.com/p/CI29Fo1nAyM/"
+                    style="background-image: url('themes/velocity/assets/images/t-shirts.jpg')"
+                  ></div>
+                </div>
+              </a>
+              <a href="�" target="_BLANK" rel="noopener" class="if-item">
+                <div class="if-item--inner">
+                  <div
+                    class="if-item--image"
+                    data-insta-embed="https://www.instagram.com/p/CI1QRL3HCus/"
+                    style="background-image: url('themes/velocity/assets/images/t-shirts.jpg')"
+                  ></div>
+                </div>
+              </a>
+              <div class="instafeed--action">
+                <a
+                  href="�"
+                  target="_BLANK"
+                  rel="noopener"
+                  class="instafeed--button button"
+                  >FOLLOW US</a
+                >
+              </div>
+            </div>
+          </div>
+          <div id="instafeed--overlay">
+            <div id="instafeed--overlay--navigation">
+              <div class="instafeed--overlay--navigation--prev">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="15px"
+                  height="25px"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    fill="rgb(12, 9, 36)"
+                    d="M14.417,24.989 L14.417,20.602 L5.573,12.498 L14.417,4.395 L14.417,0.009 L0.784,12.498 L14.417,24.989 Z"
+                  />
+                </svg>
+              </div>
+              <div class="instafeed--overlay--navigation--next">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="15px"
+                  height="25px"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    fill="rgb(12, 9, 36)"
+                    d="M0.510,24.989 L0.510,20.602 L9.355,12.498 L0.510,4.395 L0.510,0.009 L14.143,12.498 L0.510,24.989 Z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div id="instafeed--overlay--close">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="26px"
+                height="25px"
+                alt="close"
+              >
+                <path
+                  fill-rule="evenodd"
+                  fill="rgb(12, 9, 36)"
+                  d="M15.470,12.500 L24.810,3.148 C25.067,2.890 25.209,2.547 25.210,2.181 C25.210,1.814 25.068,1.470 24.810,1.213 L23.992,0.394 C23.735,0.136 23.392,-0.006 23.025,-0.006 C22.660,-0.006 22.317,0.136 22.059,0.394 L12.719,9.746 L3.378,0.394 C3.121,0.136 2.778,-0.006 2.412,-0.006 C2.046,-0.006 1.703,0.136 1.446,0.394 L0.627,1.213 C0.094,1.747 0.094,2.615 0.627,3.148 L9.968,12.500 L0.627,21.852 C0.370,22.109 0.228,22.453 0.228,22.819 C0.228,23.186 0.370,23.529 0.627,23.786 L1.446,24.606 C1.703,24.864 2.046,25.005 2.411,25.005 C2.777,25.005 3.121,24.864 3.378,24.606 L12.719,15.254 L22.059,24.606 C22.317,24.864 22.660,25.005 23.025,25.005 L23.025,25.005 C23.391,25.005 23.734,24.864 23.992,24.606 L24.810,23.786 C25.067,23.529 25.209,23.186 25.209,22.819 C25.209,22.453 25.067,22.109 24.810,21.852 L15.470,12.500 Z"
+                />
+              </svg>
+            </div>
+            <div class="if-ol--item cf" data-insta-embed="�">
+              <div class="if-ol--image">
+                <img
+                  src="themes/velocity/assets/images/13/4a81c9131891697_402355480818428_2874468559761908412_n-jpg.jpg"
+                />
+              </div>
+              <div class="if-ol--content">
+                <div class="if-ol--content--inner">
+                  Gift it real good this Christmas &�127873;<br />
+                  <br />
+                  Use code &�8216;XMAS15&�8217; for 15% OFF!<br />
+                  <br />
+                  www.ABCclothing.com/mens-clothing/
+                </div>
+                <div
+                  class="if-ol--content--attribution"
+                  data-insta-timestamp="2020-12-18 12:30:10"
+                >
+                  @F & M Clothes| December 18, 2020
+                </div>
+              </div>
+            </div>
+            <div class="if-ol--item cf" data-insta-embed="�">
+              <div class="if-ol--image">
+                <img
+                  src="themes/velocity/assets/images/13/a9d3e4a0131603177_688922091771091_3828829140981230545_n-jpg.jpg"
+                />
+              </div>
+              <div class="if-ol--content">
+                <div class="if-ol--content--inner">
+                  Why not treat someone to a F & M Clothes Gift Card this
+                  Christmas &�127873; <br />
+                  <br />
+                  Find them here &gt;&gt;
+                  www.ABCclothing.com/mens-clothing/accessories/
+                </div>
+                <div
+                  class="if-ol--content--attribution"
+                  data-insta-timestamp="2020-12-17 20:28:24"
+                >
+                  @F & M Clothes| December 17, 2020
+                </div>
+              </div>
+            </div>
+            <div class="if-ol--item cf" data-insta-embed="�">
+              <div class="if-ol--image">
+                <img
+                  src="themes/velocity/assets/images/13/fbb7a131600680_154170152714936_6387962691718199927_n-jpg.jpg"
+                />
+              </div>
+              <div class="if-ol--content">
+                <div class="if-ol--content--inner">
+                  Which @F & M Shirt will you be wearing for Christmas?
+                  &�128293;<br />
+                  <br />
+                  15% Off Code: &�8216;XMAS15&�8217;<br />
+                  <br />
+                  www.ABCclothing.com/mens-clothing/maverick-tees-/
+                </div>
+                <div
+                  class="if-ol--content--attribution"
+                  data-insta-timestamp="2020-12-17 12:32:56"
+                >
+                  @F & M Clothes | December 17, 2020
+                </div>
+              </div>
+            </div>
+            <div class="if-ol--item cf" data-insta-embed="�">
+              <div class="if-ol--image">
+                <img
+                  src="themes/velocity/assets/images/13/360505130867727_3430192790440352_674256541782500187_n-jpg.jpg"
+                />
+              </div>
+              <div class="if-ol--content">
+                <div class="if-ol--content--inner">
+                  Can&�8217;t decide what to get them? Grab a gift voucher!!
+                  &�128588;&�127996;<br />
+                  <br />
+                  Shop here &gt;&gt; www.ABCClothing.com
+                </div>
+                <div
+                  class="if-ol--content--attribution"
+                  data-insta-timestamp="2020-12-16 20:30:58"
+                >
+                  @F & M Clothes | December 16, 2020
+                </div>
+              </div>
+            </div>
+            <div class="if-ol--item cf" data-insta-embed="�">
+              <div class="if-ol--image">
+                <img
+                  src="themes/velocity/assets/images/13/e9f5d4c131445215_199887425162453_897058120602829296_n-jpg.jpg"
+                />
+              </div>
+              <div class="if-ol--content">
+                <div class="if-ol--content--inner">
+                  Our Oversized Hoodies are running super LOW on stock!!
+                  &�128562;<br />
+                  <br />
+                  15% off code: &�8216;XMAS15&�8217;<br />
+                  <br />
+                  Get yours here &gt;&gt;
+                  www.ABCclothing.com/mens-clothing/hoodies/
+                </div>
+                <div
+                  class="if-ol--content--attribution"
+                  data-insta-timestamp="2020-12-16 12:29:25"
+                >
+                  @F & M Clothes | December 16, 2020
+                </div>
+              </div>
+            </div>
+            <div class="if-ol--item cf" data-insta-embed="�">
+              <div class="if-ol--image">
+                <img
+                  src="themes/velocity/assets/images/13/0887c0f5130894378_1326901047720220_581366307915039427_n-jpg.jpg"
+                />
+              </div>
+              <div class="if-ol--content">
+                <div class="if-ol--content--inner">
+                  Stay warm this winter with our women&�8217;s Octavia Jacket
+                  and men&�8217;s Camden Jacket &�128293;<br />
+                  <br />
+                  Use code &�8216;XMAS15&�8217;<br />
+                  <br />
+                  www.ABCclothing.com/mens-clothing/
+                </div>
+                <div
+                  class="if-ol--content--attribution"
+                  data-insta-timestamp="2020-12-15 20:38:32"
+                >
+                  @F & M Clothes | December 15, 2020
+                </div>
+              </div>
+            </div>
+            <div id="instafeed--overlay--follow-container">
+              <div class="instafeed--overlay--follow-title">Follow Us</div>
+              <div class="instafeed--overlay--follow-icons">
+                <a
+                  target="_blank"
+                  href="�"
+                  class="instafeed--overlay--follow-icon instafeed--overlay--follow-icon--facebook"
+                >
+                  <img
+                    src="themes/velocity/assets/images/t-shirts.jpg"
+                    alt="The Torcross"
+                    title="The Torcross"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="�"
+                  class="instafeed--overlay--follow-icon instafeed--overlay--follow-icon--twitter"
+                >
+                  <img
+                    src="themes/velocity/assets/images/t-shirts.jpg"
+                    alt="The Torcross"
+                    title="The Torcross"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="�"
+                  class="instafeed--overlay--follow-icon instafeed--overlay--follow-icon--instagram"
+                >
+                  <img
+                    src="themes/velocity/assets/images/t-shirts.jpg"
+                    alt="The Torcross"
+                    title="The Torcross"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+       
+
+
+          
