@@ -11,10 +11,7 @@
 	<div class="footer-nav cf">
         
     <ul class="footer-nav--column list-reset segment-33">
-            <li class="footer-nav--item"><a class="footer-nav--link" href="#">Mens</a></li>
-            <li class="footer-nav--item"><a class="footer-nav--link" href="#">Womens</a></li>
-            <li class="footer-nav--item"><a class="footer-nav--link" href="#">Accessories</a></li>
-            
+                
             <li class="footer-nav--item"><a class="footer-nav--link" href="https://webkul.com/about-us/company-profile/">
             About FMClothes
             {{ __('velocity::app.admin.meta-data.footer-middle.about-us') }}
